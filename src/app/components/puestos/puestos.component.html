@@ -1,0 +1,40 @@
+<h3>Listado de puestos</h3>
+<h5>Puestos libres: <span class="badge badge-success">{{ libres }}</span> </h5>
+<h5>Puestos ocupados: <span class="badge badge-danger">{{ ocupados }}</span> </h5>
+
+<div class="row">
+    <div class="col-md-6">
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Ubicacion</th>
+                    <th>Usuario</th>
+                    <th>Hora entrada</th>
+                    <th>Estado</th>
+                    <th>Desocupar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let puesto of puestos">
+                    <td>{{ puesto.id }}</td>
+                    <td>{{ puesto.ubicacion }}</td>
+                    <td>{{ puesto.usuario | nullVerify }}</td>
+                    <td>{{ puesto.horaEntrada | date: 'shortTime'}}</td>
+                    <td>{{ puesto.estado.nombre }}</td>
+                    <td><a class="btn btn-primary" (click)="desocupar( puesto )" >Desocupar</a></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+<!--     
+    <div class="col-md-6">
+        <img src="assets/img/sitio.jpg" alt="">
+    </div> -->
+
+    
+
+</div>
+<button class="btn btn-danger btn-small" (click)="alert()">Alert</button>
