@@ -27,6 +27,16 @@ export class PuestosService {
 
   }
 
+  public getPuestoById(id: number){
+
+    return this.http.get(`${this.endPointPuestos}/porId/${id}`)
+      .pipe( map( data => {
+        let puestos = data as ResponseServer;
+        return puestos;
+      }));
+
+  }
+
   public updatePuesto(puesto: Puesto){
     return this.http.put(`${this.endPointPuestos}/actualizar/${puesto.id}`, puesto, {headers:this.headers})
       .pipe( map( data => {
@@ -34,6 +44,7 @@ export class PuestosService {
         return resp;
       }));
   }
+
 
 
 }

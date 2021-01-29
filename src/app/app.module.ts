@@ -15,6 +15,9 @@ import { UsuariosComponent } from './components/usuarios/usuarios.component';
 
 //Pipes
 import { NullVerifyPipe } from './pipes/null-verify.pipe';
+import { OcuparComponent } from './components/ocupar/ocupar.component';
+import { FormsModule } from '@angular/forms';
+import { FormComponent } from './components/form/form.component';
 
 
 
@@ -24,12 +27,15 @@ import { NullVerifyPipe } from './pipes/null-verify.pipe';
     NavbarComponent,
     PuestosComponent,
     UsuariosComponent,
-    NullVerifyPipe
+    NullVerifyPipe,
+    OcuparComponent,
+    FormComponent
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
-    RouterModule.forRoot(ROUTES)
+    RouterModule.forRoot(ROUTES),
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

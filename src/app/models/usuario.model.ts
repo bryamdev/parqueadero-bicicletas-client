@@ -3,4 +3,8 @@ export class Usuario{
     public codigo: string;
     public nombre: string;
     public creadoEn: Date;
+
+    constructor(){
+        
+    }
 }

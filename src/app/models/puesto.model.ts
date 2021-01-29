@@ -7,4 +7,8 @@ export class Puesto{
     public usuario: Usuario;
     public estado: Estado;
     public horaEntrada: Date;
+
+    constructor(){
+        
+    }
 }

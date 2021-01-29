@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { Puesto } from 'src/app/models/puesto.model';
 import { PuestosService } from 'src/app/services/puestos.service';
+import { UsuariosService } from 'src/app/services/usuarios.service';
 import swal from 'sweetalert2';
 
 @Component({
@@ -14,18 +16,27 @@ export class PuestosComponent implements OnInit {
   public libres: number = 0;
   public ocupados: number = 0;
   
-  constructor(private puestosService: PuestosService) { 
+  constructor(private puestosService: PuestosService,
+              private router: Router) { 
+
+    this.obtenerPuestos();
+
+  }
+
+  ngOnInit(): void {
+  }
+
+  obtenerPuestos(){
+
+    this.libres = 0;
+    this.ocupados = 0;
 
     this.puestosService.getPuestos()
       .subscribe( data => {
         this.puestos = data['results'];
         console.log(this.puestos);
         this.verificarEstado();
-      })
-
-  }
-
-  ngOnInit(): void {
+    })
   }
 
   verificarEstado(){
@@ -42,16 +53,47 @@ export class PuestosComponent implements OnInit {
   }
 
   desocupar(puesto: Puesto){
-    puesto.estado.id = 1;
-    puesto.usuario = null;
-    puesto.horaEntrada = null;
 
-    this.puestosService.updatePuesto(puesto)
-      .subscribe( data => {
-        console.log(data);
-      });
+    swal.fire({
+      title: 'Estás seguro?',
+      text: `Vas a desocupar el puesto '${puesto.ubicacion}'`,
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, desocupar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        puesto.estado.id = 1;
+        puesto.usuario = null;
+        puesto.horaEntrada = null;
+
+        this.puestosService.updatePuesto(puesto)
+          .subscribe( data => {
+            console.log(data);
+            if(data.isOk){
+              swal.fire(
+                'Desocupado',
+                `El puesto '${puesto.ubicacion}' ha sido desocupado`,
+                'success'
+              )
+              this.obtenerPuestos();
+            }
+          });        
+      }
+    })
+
+
+    // this.puestosService.updatePuesto(puesto)
+    //   .subscribe( data => {
+    //     console.log(data);
+    //   });
 
     //console.log(puesto);
+  }
+
+  ocupar(puesto: Puesto){
+    this.router.navigate([`/ocupar/${puesto.id}`]);
   }
 
   alert(){
